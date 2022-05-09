@@ -17,4 +17,4 @@ sed -i "s/CONNSTRING_PLACEHOLDER/${ESCAPED}/g" /data/resources/remote_script.sh
 
 # Last step is to use sshpass to SSH into the host with a password.
 # Then we're going to enable sudo by passing the password and then sudo execute the script.
-sshpass -p$SSHPASS ssh -o StrictHostKeyChecking=no $SSHUSER@$HOSTIP "echo ${SSHPASS} | sudo -Sv && sudo bash -s" < /data/resources/remote_script.sh
+sshpass -p$SSHPASS ssh -o StrictHostKeyChecking=no $SSHUSER@$HOSTIP "echo ${SSHPASS} | sudo -Sv && bash -s" < /data/resources/remote_script.sh

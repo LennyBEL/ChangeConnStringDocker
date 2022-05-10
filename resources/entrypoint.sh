@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 # ENVIRONMENT VARIABLES
 # $SSHUSER = SSH user for remote
 # $SSHPASS = SSH password for remote
@@ -9,6 +8,7 @@
 
 # Because the connection string tends to contain characters like "/", we need to add escape these characters.
 # We can do this with sed. The script below will add an escape character "\" to certain characters.
+# Taken from StackOverflow (unknown user)
 ESCAPED="$(echo ${NEWCONNSTRING} | sed -e 's/[\/&]/\\&/g')"
 
 # remote_script.sh is the script we'll execute on the host device.
@@ -17,4 +17,6 @@ sed -i "s/CONNSTRING_PLACEHOLDER/${ESCAPED}/g" /data/resources/remote_script.sh
 
 # Last step is to use sshpass to SSH into the host with a password.
 # Then we're going to enable sudo by passing the password and then sudo execute the script.
-sshpass -p$SSHPASS ssh -o StrictHostKeyChecking=no $SSHUSER@$HOSTIP "echo ${SSHPASS} | sudo -Sv && bash -s" < /data/resources/remote_script.sh
+if [[ $? -eq 0 ]]; then
+    echo $SSHPASS | sshpass -p$SSHPASS ssh -tt -o StrictHostKeyChecking=no $SSHUSER@$HOSTIP "sudo -s bash" < /data/resources/remote_script.sh
+fi

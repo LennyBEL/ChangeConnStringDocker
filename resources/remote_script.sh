@@ -32,7 +32,7 @@ if [[ $? -eq 0 ]]; then
     echo "Applying new configuration..."
     iotedge config apply
 
-    if [[ &? -ne 0 ]]; then
+    if [[ $? -ne 0 ]]; then
         echo "Something went wrong with applying... rolling back."
         cp ${CONFIGFILE}.bak $CONFIGFILE
 
